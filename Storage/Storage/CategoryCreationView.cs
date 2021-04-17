@@ -37,7 +37,7 @@ namespace Storage
             }
             if(_parentNode != null)
             {
-                if (Utils.FindNode(_parentNode, text) == null)
+                if (Utils.FindNode((StorageNode)_parentNode, text) == null)
                 {
                     _result = new TreeNode(text);
                 }

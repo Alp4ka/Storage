@@ -47,6 +47,7 @@
             this.addButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.deleteButton = new System.Windows.Forms.Button();
+            this.editButton = new System.Windows.Forms.Button();
             this.categoryCreationStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -80,13 +81,13 @@
             this.categoryCreationStrip.Name = "contextMenuStrip1";
             this.categoryCreationStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.categoryCreationStrip.ShowImageMargin = false;
-            this.categoryCreationStrip.Size = new System.Drawing.Size(162, 70);
+            this.categoryCreationStrip.Size = new System.Drawing.Size(164, 70);
             // 
             // createNewCategory
             // 
             this.createNewCategory.ForeColor = System.Drawing.Color.White;
             this.createNewCategory.Name = "createNewCategory";
-            this.createNewCategory.Size = new System.Drawing.Size(161, 22);
+            this.createNewCategory.Size = new System.Drawing.Size(163, 22);
             this.createNewCategory.Text = "Create SubCategory";
             this.createNewCategory.Click += new System.EventHandler(this.createNewCategory_Click);
             // 
@@ -94,7 +95,7 @@
             // 
             this.deleteSubCategoryToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.deleteSubCategoryToolStripMenuItem.Name = "deleteSubCategoryToolStripMenuItem";
-            this.deleteSubCategoryToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.deleteSubCategoryToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.deleteSubCategoryToolStripMenuItem.Text = "Delete SubCategory";
             this.deleteSubCategoryToolStripMenuItem.Click += new System.EventHandler(this.deleteSubCategoryToolStripMenuItem_Click);
             // 
@@ -102,8 +103,8 @@
             // 
             this.changeSubCategoryToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.changeSubCategoryToolStripMenuItem.Name = "changeSubCategoryToolStripMenuItem";
-            this.changeSubCategoryToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.changeSubCategoryToolStripMenuItem.Text = "Change SubCategory";
+            this.changeSubCategoryToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.changeSubCategoryToolStripMenuItem.Text = "Rename SubCategory";
             this.changeSubCategoryToolStripMenuItem.Click += new System.EventHandler(this.changeSubCategoryToolStripMenuItem_Click);
             // 
             // dataGrid
@@ -153,6 +154,8 @@
             this.dataGrid.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dataGrid.Size = new System.Drawing.Size(542, 402);
             this.dataGrid.TabIndex = 1;
+            this.dataGrid.Enter += new System.EventHandler(this.dataGrid_Enter);
+            this.dataGrid.Leave += new System.EventHandler(this.dataGrid_Leave);
             // 
             // menuStrip1
             // 
@@ -232,12 +235,29 @@
             this.deleteButton.UseVisualStyleBackColor = false;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
+            // editButton
+            // 
+            this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.editButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(110)))), ((int)(((byte)(230)))));
+            this.editButton.FlatAppearance.BorderSize = 0;
+            this.editButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.editButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.editButton.ForeColor = System.Drawing.Color.White;
+            this.editButton.Location = new System.Drawing.Point(271, 400);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(71, 27);
+            this.editButton.TabIndex = 6;
+            this.editButton.Text = "Edit";
+            this.editButton.UseVisualStyleBackColor = false;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.editButton);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.addButton);
@@ -271,6 +291,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ToolStripMenuItem changeSubCategoryToolStripMenuItem;
         private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Button editButton;
     }
 }
 

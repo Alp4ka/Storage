@@ -16,11 +16,15 @@ namespace Storage
         {
             InitializeComponent();
             InitializeCategories();
+            foreach (string h in Program.CsvHeader)
+            {
+                dataGrid.Columns.Add(h, h);
+            }
         }
 
         private void InitializeCategories()
         {
-            TreeNode[] nodes = Utils.InitializeCategories();
+            StorageNode[] nodes = Utils.InitializeCategories();
             storageTree.Nodes.Clear();
             foreach (var node in nodes)
             {
@@ -53,7 +57,7 @@ namespace Storage
                 {
                     storageTree.Nodes.Add(result);
                 }
-                Utils.CreateCategoryInPath(result);
+                Utils.CreateCategoryInPath((StorageNode)result);
             }
         }
 
@@ -65,7 +69,7 @@ namespace Storage
                 DialogResult result = MessageBox.Show($"Are you sure want to delete {selectedNode.Text}?", "Deletion", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
-                    Utils.RemoveCategoryFromPath(selectedNode);
+                    Utils.RemoveCategoryFromPath((StorageNode)selectedNode);
                     var parent = selectedNode.Parent;
                     if (parent != null)
                     {
@@ -93,7 +97,7 @@ namespace Storage
                 ccv.ShowDialog();
                 if (ccv.Result != null)
                 {
-                    Utils.RenameCategoryTo(selectedNode, ccv.Result.Text);
+                    Utils.RenameCategoryTo((StorageNode)selectedNode, ccv.Result.Text);
                 }
             }
             
@@ -104,22 +108,25 @@ namespace Storage
             var selectedNode = storageTree.SelectedNode;
             if(selectedNode!= null)
             {
-                string csvPath = Utils.GetCsvByNode(selectedNode);
-                dataGrid.Columns.Clear();
                 dataGrid.Rows.Clear();
-                var csvResult = SuperSmartCsvManager.ReadCsv(csvPath);
-                if(csvResult == null)
-                {
-                    MessageBox.Show("Error while reading csv file!");
-                    return;
-                }
-                foreach (string h in csvResult[0])
+                var products = ((StorageNode)selectedNode).Cathegory.Products;
+
+                /*foreach (string h in Program.CsvHeader)
                 {
                     dataGrid.Columns.Add(h, h);
-                }
-                for(int i = 1; i < csvResult.Length; ++i)
+                }*/
+                for(int i = 0; i < products.Count(); ++i)
                 {
-                    dataGrid.Rows.Add(csvResult[i]);
+                    var row = new ProductRow();
+                    var array = products[i].GetArray();
+                    row.CreateCells(dataGrid);
+                    for (int j = 0; j < array.Length; ++j)
+                    {
+                        row.Cells[j].Value = array[j];
+                    }
+                    row.Product = products[i];
+                    dataGrid.Rows.Add(row);
+
                 }
             }
         }
@@ -145,6 +152,32 @@ namespace Storage
                 {
                     dataGrid.Rows.RemoveAt(selectedCells[0].RowIndex);
                 }
+            }
+        }
+
+        private void dataGrid_Enter(object sender, EventArgs e)
+        {
+            //editButton.Visible = true;
+        }
+
+        private void dataGrid_Leave(object sender, EventArgs e)
+        {
+            //editButton.Visible = false;
+        }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            var selectedNode = storageTree.SelectedNode;
+            if (selectedNode != null)
+            {
+                if(dataGrid.SelectedCells.Count == 0)
+                {
+                    return;
+                }
+                MessageBox.Show("123");
+                var productRow = ((ProductRow)dataGrid.SelectedCells[0].OwningRow);
+                ProductCardView pcv = new ProductCardView(productRow);
+                pcv.ShowDialog();
             }
         }
     }

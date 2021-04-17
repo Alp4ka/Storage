@@ -8,7 +8,6 @@ namespace Storage
 {
     static class Program
     {
-        public static int WarnProductAmount = 10;
         public static string[] CsvHeader = new string[] { "Name", "Description", "Article", "Amount", "Price1", "Price2", "Guarantee" };
         public static List<Type> ConvertTo = new List<Type>() {typeof(string), typeof(string), typeof(string), typeof(int), typeof(double), typeof(double), typeof(string) };
         /// <summary>

@@ -13,9 +13,9 @@ namespace Storage
     {
         private const string _root = ".\\CATEGORIES";
         private const string _csvName = "products.csv";
-        public static TreeNode FindNode(TreeNode treeNode, string name)
+        public static StorageNode FindNode(StorageNode treeNode, string name)
         {
-            foreach (TreeNode tn in treeNode.Nodes)
+            foreach (StorageNode tn in treeNode.Nodes)
             {
                 if (tn.Text == name)
                 {
@@ -24,14 +24,14 @@ namespace Storage
             }
             return null;
         }
-        public static string GetCsvByNode(TreeNode tnode)
+        public static string GetCsvByNode(StorageNode tnode)
         {
             return Path.Combine(Path.Combine(_root, tnode.FullPath), _csvName);
         }
-        public static TreeNode[] InitializeCategories(string path=_root)
+        public static StorageNode[] InitializeCategories(string path=_root)
         {
-            TreeView tv = new TreeView();
-            List<TreeNode> nodes = new List<TreeNode>();
+            TreeView tempTreeView = new TreeView();
+            List<StorageNode> nodes = new List<StorageNode>();
             int recursionDepth = 7;
             try
             {
@@ -41,27 +41,55 @@ namespace Storage
                     foreach(string d in directories)
                     {
                         string fileName = Path.GetFileName(d);
-                        TreeNode tnode = new TreeNode(fileName);
-                        tv.Nodes.Add(tnode);
+                        StorageNode tnode = new StorageNode(fileName);
+                        tempTreeView.Nodes.Add(tnode);
                         nodes.Add(tnode);
+
+                        string csvPath = Path.Combine(d, _csvName);
+                        List<Product> productsToAdd = ParseProducts(csvPath);
+
+                        Cathegory cathegoryToAdd = new Cathegory(tnode.Text);
+                        cathegoryToAdd.Products.AddRange(productsToAdd);
+                        Storage.Products.AddRange(productsToAdd);
+
+                        tnode.Cathegory = cathegoryToAdd;
+                        Storage.Cathegories.Add(cathegoryToAdd);
                         TreeNodeByPath(tnode, recursionDepth-1);
                     }
-                    tv.Nodes.Clear();
+                    tempTreeView.Nodes.Clear();
                     return nodes.ToArray();
                 }
                 else
                 {
                     Directory.CreateDirectory(_root);
-                    return new TreeNode[] { };
+                    return new StorageNode[] { };
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                return new TreeNode[] { };
+                return new StorageNode[] { };
             }
         }
-        private static void TreeNodeByPath(TreeNode parent, int remain)
+        private static List<Product> ParseProducts(string path)
+        {
+            List<Product> result = new List<Product>();
+            var csvResult = SuperSmartCsvManager.ReadCsv(path);
+            for(int i =1; i < csvResult.Length; ++i)
+            {
+                try
+                {
+                    Product product = Product.FromArray(csvResult[i]);
+                    result.Add(product);
+                }
+                catch
+                {
+
+                }
+            }
+            return result;
+        }
+        private static void TreeNodeByPath(StorageNode parent, int remain)
         {
             string parentPath = Path.Combine(_root, parent.FullPath);
             if (remain <= 0 || Directory.GetDirectories(parentPath).Length == 0)
@@ -71,14 +99,24 @@ namespace Storage
             string[] directories = Directory.GetDirectories(parentPath);
             foreach (string d in directories)
             {
-                TreeNode tnode = new TreeNode(Path.GetFileName(d));
+                StorageNode tnode = new StorageNode(Path.GetFileName(d));
+
+                Cathegory cathegoryToAdd = new Cathegory(tnode.Text);
+                Storage.Cathegories.Add(cathegoryToAdd);
+                tnode.Cathegory = cathegoryToAdd;
+
+                string csvPath = Path.Combine(d, _csvName);
+                List<Product> productsToAdd = ParseProducts(csvPath);
+                cathegoryToAdd.Products.AddRange(productsToAdd);
+                Storage.Products.AddRange(productsToAdd);
+
                 parent.Nodes.Add(tnode);
                 TreeNodeByPath(tnode, remain - 1);
             }
         }
-        public static TreeNode FindNode(TreeView treeView, string name)
+        public static StorageNode FindNode(TreeView treeView, string name)
         {
-            foreach (TreeNode tn in treeView.Nodes)
+            foreach (StorageNode tn in treeView.Nodes)
             {
                 if (tn.Text == name)
                 {
@@ -87,7 +125,7 @@ namespace Storage
             }
             return null;
         }
-        public static void CreateCategoryInPath(TreeNode node)
+        public static void CreateCategoryInPath(StorageNode node)
         {
             try
             {
@@ -95,6 +133,9 @@ namespace Storage
                 Directory.CreateDirectory(fullpath);
                 string filename = Path.Combine(fullpath, "products.csv");
                 File.WriteAllText(filename, String.Join(",", Program.CsvHeader.Select(x=>'"'+ x.ToString() + '"')));
+                Cathegory cathegory = new Cathegory(node.Text);
+                node.Cathegory = cathegory;
+                Storage.Cathegories.Add(cathegory);
             }
             catch (Exception ex)
             {
@@ -114,7 +155,7 @@ namespace Storage
                 highlighter = Color.FromArgb(255, 255, 0);
             }
             
-            foreach(TreeNode tn in treeView.Nodes)
+            foreach(StorageNode tn in treeView.Nodes)
             {
                 if (tn.Text.ToLower().Contains(text.ToLower()))
                 {
@@ -131,13 +172,13 @@ namespace Storage
                 HightlightRecursive(tn, text, highlighter, basic, 10);
             }
         }
-        private static void HightlightRecursive(TreeNode node, string text, Color highlighter, Color basic, int remain)
+        private static void HightlightRecursive(StorageNode node, string text, Color highlighter, Color basic, int remain)
         {
             if(node.Nodes.Count == 0 || remain <= 0)
             {
                 return;
             }
-            foreach (TreeNode tn in node.Nodes)
+            foreach (StorageNode tn in node.Nodes)
             {
                 if (tn.Text.ToLower().Contains(text.ToLower()))
                 {
@@ -155,11 +196,12 @@ namespace Storage
             }
             return;
         }
-        public static void RemoveCategoryFromPath(TreeNode node)
+        public static void RemoveCategoryFromPath(StorageNode node)
         {
             try
             {
                 string fullpath = Path.Combine(_root, node.FullPath);
+                Storage.Cathegories.Remove(node.Cathegory);
                 Directory.Delete(fullpath, true);
             }
             catch(Exception ex)
@@ -167,8 +209,11 @@ namespace Storage
                 MessageBox.Show(ex.Message);
             }
         }
-
-        public static void RenameCategoryTo(TreeNode node, string name)
+        /*public Product GetProductByRow(StorageNode tNode, DataGridView grid)
+        {
+            
+        }*/
+        public static void RenameCategoryTo(StorageNode node, string name)
         {
             try
             {
@@ -176,6 +221,7 @@ namespace Storage
                 DirectoryInfo dinfo = new DirectoryInfo(fullpath);
                 dinfo.RenameTo(name);
                 node.Text = name;
+                node.Cathegory.Name = name;
             }
             catch (IOException)
             {

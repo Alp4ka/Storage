@@ -56,6 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cathegory.cs" />
+    <Compile Include="DGridRowExtended.cs" />
+    <Compile Include="IStorable.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="CategoryCreationView.cs">
       <SubType>Form</SubType>
@@ -83,7 +86,9 @@
     <Compile Include="SettingsView.Designer.cs">
       <DependentUpon>SettingsView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Storage.cs" />
     <Compile Include="SuperSmartCsvManager.cs" />
+    <Compile Include="TNodeExtended.cs" />
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="CategoryCreationView.resx">
       <DependentUpon>CategoryCreationView.cs</DependentUpon>

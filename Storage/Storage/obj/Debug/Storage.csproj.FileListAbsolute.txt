@@ -13,3 +13,18 @@ C:\Users\kisam\source\repos\Storage\Storage\obj\Debug\Storage.exe
 C:\Users\kisam\source\repos\Storage\Storage\obj\Debug\Storage.pdb
 C:\Users\kisam\source\repos\Storage\Storage\obj\Debug\Storage.CategoryCreationView.resources
 C:\Users\kisam\source\repos\Storage\Storage\obj\Debug\Storage.ProductCardView.resources
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\obj\Debug\Storage.csprojAssemblyReference.cache
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\obj\Debug\Storage.CategoryCreationView.resources
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\obj\Debug\Storage.Form1.resources
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\obj\Debug\Storage.ProductCardView.resources
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\obj\Debug\Storage.Properties.Resources.resources
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\obj\Debug\Storage.csproj.GenerateResource.cache
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\obj\Debug\Storage.csproj.CoreCompileInputs.cache
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\obj\Debug\Storage.exe
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\obj\Debug\Storage.pdb
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\bin\Debug\Storage.exe.config
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\bin\Debug\Storage.exe
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\bin\Debug\Storage.pdb
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\bin\Debug\MetroFramework.dll
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\obj\Debug\Storage.csproj.CopyComplete
