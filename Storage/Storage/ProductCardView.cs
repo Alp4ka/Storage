@@ -13,12 +13,18 @@ namespace Storage
 {
     public partial class ProductCardView : Form
     {
+        private Product _result;
+        public Product Result { get => _result; }
+        private Product _toChange = null;
         public ProductCardView()
         {
             InitializeComponent();
+            _result = null;
         }
-        public ProductCardView(ProductRow productRow):this()
+
+        public ProductCardView(ProductRow productRow) : this()
         {
+            _toChange = productRow.Product;
             var product = productRow.Product;
             nameBox.Text = product.Name != null ? product.Name : "";
             descriptionBox.Text = product.Description != null ? product.Description : "";
@@ -44,8 +50,78 @@ namespace Storage
             }
             catch
             {
-
+                
             }
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            _result = null;
+            Close();
+        }
+        private bool CheckFields()
+        {
+            if (nameBox.Text.Length < 3)
+            {
+                MessageBox.Show("Minimal length of Name is 3!");
+                return false;
+            }
+            else if (!double.TryParse(price1Box.Text, out double tempPrice))
+            {
+                MessageBox.Show($"Strange Price1 *hm*... Should be real number, but found {price1Box.Text}");
+                return false;
+            }
+            else if (!double.TryParse(price2Box.Text, out tempPrice))
+            {
+                MessageBox.Show($"Strange Price2 *hm*... Should be real number, but found {price2Box.Text}");
+                return false;
+            }
+            else if (!int.TryParse(amountBox.Text, out int tempAmount))
+            {
+                MessageBox.Show($"Strange Amount *hm*... Should be Int, but found {amountBox.Text}");
+                return false;
+            }
+            return true;
+        }
+
+        private void addButton_Click(object sender, EventArgs e)
+        {
+            if (!CheckFields())
+            {
+                return;
+            }
+            int amount = int.Parse(amountBox.Text);
+            double price1 = double.Parse(price1Box.Text);
+            double price2 = double.Parse(price2Box.Text);
+            string name = nameBox.Text;
+            string description = descriptionBox.Text;
+            string guarantee = guaranteeBox.Text;
+            string article = articleBox.Text;
+            if (_toChange != null)
+            {
+                _toChange.Amount = amount;
+                _toChange.Price1 = price1;
+                _toChange.Price2 = price2;
+                _toChange.Name = name;
+                _toChange.Description = description;
+                _toChange.Article = article;
+                _toChange.Guarantee = guarantee;
+                _result = _toChange;
+            }
+            else
+            {
+                Product product = new Product(
+                    name: name,
+                    price1: price1,
+                    price2: price2,
+                    article: article,
+                    amount: amount,
+                    description: description,
+                    guarantee: guarantee
+                    );
+                _result = product;
+            }
+            Close();
         }
     }
 }

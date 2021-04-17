@@ -43,7 +43,7 @@ namespace Storage
 
         private void createNewCategory_Click(object sender, EventArgs e)
         {
-            var selectedNode = storageTree.SelectedNode;
+            var selectedNode = (StorageNode)storageTree.SelectedNode;
             var ccvDialog = new CategoryCreationView(selectedNode);
             ccvDialog.ShowDialog();
             var result = ccvDialog.Result;
@@ -57,7 +57,7 @@ namespace Storage
                 {
                     storageTree.Nodes.Add(result);
                 }
-                Utils.CreateCategoryInPath((StorageNode)result);
+                Utils.CreateCategoryInPath(result);
             }
         }
 
@@ -93,7 +93,7 @@ namespace Storage
             var selectedNode = storageTree.SelectedNode;
             if(selectedNode != null)
             {
-                CategoryCreationView ccv = new CategoryCreationView(selectedNode.Parent);
+                CategoryCreationView ccv = new CategoryCreationView((StorageNode)selectedNode.Parent);
                 ccv.ShowDialog();
                 if (ccv.Result != null)
                 {
@@ -134,24 +134,52 @@ namespace Storage
         // TODO Здесь нужно смотреть не на селектед нод, а на датагрид.
         private void addButton_Click(object sender, EventArgs e)
         {
-            var selectedNode = storageTree.SelectedNode;
-            if (selectedNode != null)
+            try
             {
-                var pcv = new ProductCardView();
-                pcv.ShowDialog();
+                var selectedNode = storageTree.SelectedNode;
+                if (selectedNode != null)
+                {
+                    var pcv = new ProductCardView();
+                    pcv.ShowDialog();
+                    Product pr = pcv.Result;
+                    if (pr == null)
+                    {
+                        return;
+                    }
+                    var array = pr.GetArray();
+                    var row = new ProductRow();
+                    row.Product = pr;
+                    row.CreateCells(dataGrid);
+                    for (int j = 0; j < array.Length; ++j)
+                    {
+                        row.Cells[j].Value = array[j];
+                    }
+                    dataGrid.Rows.Add(row);
+                }
+            }
+            catch
+            {
+
             }
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure want to delete this row?", "Warning", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
+            try
             {
-                var selectedCells = dataGrid.SelectedCells;
-                if (selectedCells != null && selectedCells.Count > 0)
+                DialogResult result = MessageBox.Show("Are you sure want to delete this row?", "Warning", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
                 {
-                    dataGrid.Rows.RemoveAt(selectedCells[0].RowIndex);
+                    var selectedCells = dataGrid.SelectedCells;
+                    if (selectedCells != null && selectedCells.Count > 0)
+                    {
+                        dataGrid.Rows.RemoveAt(selectedCells[0].RowIndex);
+                    }
                 }
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("Choose correct row.");
             }
         }
 
@@ -167,17 +195,59 @@ namespace Storage
 
         private void editButton_Click(object sender, EventArgs e)
         {
-            var selectedNode = storageTree.SelectedNode;
-            if (selectedNode != null)
+            try
             {
-                if(dataGrid.SelectedCells.Count == 0)
+                var selectedNode = storageTree.SelectedNode;
+                if (selectedNode != null)
                 {
-                    return;
+                    if (dataGrid.SelectedCells.Count == 0)
+                    {
+                        return;
+                    }
+                    var productRow = ((ProductRow)dataGrid.SelectedCells[0].OwningRow);
+                    ProductCardView pcv = new ProductCardView(productRow);
+                    pcv.ShowDialog();
+                    if(pcv.Result != null)
+                    {
+                        object[] toSave = productRow.Product.GetArray();
+                        for(int i=0; i < toSave.Length; ++i)
+                        {
+                            productRow.Cells[i].Value = toSave[i];
+                        }
+                        
+                    }
                 }
-                MessageBox.Show("123");
-                var productRow = ((ProductRow)dataGrid.SelectedCells[0].OwningRow);
-                ProductCardView pcv = new ProductCardView(productRow);
-                pcv.ShowDialog();
+            }
+            catch
+            {
+                MessageBox.Show("Choose correct row.");
+            }
+        }
+
+        private void dataGrid_SelectionChanged(object sender, EventArgs e)
+        {
+            if((sender as DataGridView).CurrentCell != null)
+            {
+                editButton.Enabled = true;
+                deleteButton.Enabled = true;
+            }
+            else
+            {
+                editButton.Enabled = false;
+                deleteButton.Enabled = false;
+            }
+        }
+
+        private void categoryCreationStrip_Opening(object sender, CancelEventArgs e)
+        {
+            var selectedNode = storageTree.SelectedNode;
+            if(selectedNode != null)
+            {
+                deleteSubCategoryToolStripMenuItem.Enabled = changeSubCategoryToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                deleteSubCategoryToolStripMenuItem.Enabled = changeSubCategoryToolStripMenuItem.Enabled = false;
             }
         }
     }

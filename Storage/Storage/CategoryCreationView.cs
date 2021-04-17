@@ -12,10 +12,10 @@ namespace Storage
 {
     public partial class CategoryCreationView : Form
     {
-        private TreeNode _parentNode;
-        private TreeNode _result;
-        public TreeNode Result { get => _result; }
-        public CategoryCreationView(TreeNode parentNode)
+        private StorageNode _parentNode;
+        private StorageNode _result;
+        public StorageNode Result { get => _result; }
+        public CategoryCreationView(StorageNode parentNode)
         {
             _result = null;
             _parentNode = parentNode;
@@ -39,7 +39,7 @@ namespace Storage
             {
                 if (Utils.FindNode((StorageNode)_parentNode, text) == null)
                 {
-                    _result = new TreeNode(text);
+                    _result = new StorageNode(text);
                 }
                 else
                 {
@@ -49,7 +49,7 @@ namespace Storage
             }
             else
             {
-                _result = new TreeNode(text);
+                _result = new StorageNode(text);
             }
             Close();
         }

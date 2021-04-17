@@ -40,7 +40,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.guaranteeBox = new System.Windows.Forms.TextBox();
             this.addButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.price2Box = new System.Windows.Forms.TextBox();
             this.price1Box = new System.Windows.Forms.TextBox();
             this.amountBox = new System.Windows.Forms.TextBox();
@@ -129,7 +129,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(14, 127);
+            this.label5.Location = new System.Drawing.Point(180, 87);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 16);
             this.label5.TabIndex = 8;
@@ -140,7 +140,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(13, 164);
+            this.label6.Location = new System.Drawing.Point(320, 87);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 16);
             this.label6.TabIndex = 10;
@@ -151,7 +151,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(14, 203);
+            this.label7.Location = new System.Drawing.Point(18, 239);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(74, 16);
             this.label7.TabIndex = 12;
@@ -162,7 +162,7 @@
             this.guaranteeBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.guaranteeBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.guaranteeBox.ForeColor = System.Drawing.Color.White;
-            this.guaranteeBox.Location = new System.Drawing.Point(98, 199);
+            this.guaranteeBox.Location = new System.Drawing.Point(102, 235);
             this.guaranteeBox.Name = "guaranteeBox";
             this.guaranteeBox.Size = new System.Drawing.Size(337, 20);
             this.guaranteeBox.TabIndex = 13;
@@ -174,35 +174,37 @@
             this.addButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.addButton.ForeColor = System.Drawing.Color.White;
-            this.addButton.Location = new System.Drawing.Point(374, 235);
+            this.addButton.Location = new System.Drawing.Point(378, 271);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(61, 27);
             this.addButton.TabIndex = 14;
             this.addButton.Text = "OK";
             this.addButton.UseVisualStyleBackColor = false;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
-            // button1
+            // cancelButton
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(307, 235);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(61, 27);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Cancel";
-            this.button1.UseVisualStyleBackColor = false;
+            this.cancelButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.cancelButton.FlatAppearance.BorderSize = 0;
+            this.cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cancelButton.ForeColor = System.Drawing.Color.White;
+            this.cancelButton.Location = new System.Drawing.Point(311, 271);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(61, 27);
+            this.cancelButton.TabIndex = 15;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = false;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // price2Box
             // 
             this.price2Box.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.price2Box.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.price2Box.ForeColor = System.Drawing.Color.White;
-            this.price2Box.Location = new System.Drawing.Point(67, 160);
+            this.price2Box.Location = new System.Drawing.Point(374, 83);
             this.price2Box.Name = "price2Box";
-            this.price2Box.Size = new System.Drawing.Size(86, 20);
+            this.price2Box.Size = new System.Drawing.Size(61, 20);
             this.price2Box.TabIndex = 16;
             // 
             // price1Box
@@ -210,9 +212,9 @@
             this.price1Box.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.price1Box.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.price1Box.ForeColor = System.Drawing.Color.White;
-            this.price1Box.Location = new System.Drawing.Point(66, 123);
+            this.price1Box.Location = new System.Drawing.Point(232, 83);
             this.price1Box.Name = "price1Box";
-            this.price1Box.Size = new System.Drawing.Size(87, 20);
+            this.price1Box.Size = new System.Drawing.Size(61, 20);
             this.price1Box.TabIndex = 17;
             // 
             // amountBox
@@ -236,17 +238,17 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(190, 83);
+            this.button2.Location = new System.Drawing.Point(16, 123);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(111, 27);
             this.button2.TabIndex = 19;
-            this.button2.Text = "Upload image";
+            this.button2.Text = "Upload Image";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(323, 83);
+            this.pictureBox1.Location = new System.Drawing.Point(142, 123);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(112, 97);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -258,13 +260,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.ClientSize = new System.Drawing.Size(451, 279);
+            this.ClientSize = new System.Drawing.Size(451, 313);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.amountBox);
             this.Controls.Add(this.price1Box);
             this.Controls.Add(this.price2Box);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.guaranteeBox);
             this.Controls.Add(this.label7);
@@ -299,7 +301,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox guaranteeBox;
         private System.Windows.Forms.Button addButton;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.TextBox price2Box;
         private System.Windows.Forms.TextBox price1Box;
         private System.Windows.Forms.TextBox amountBox;
