@@ -49,12 +49,17 @@ namespace Storage
             var result = ccvDialog.Result;
             if (result != null)
             {
+                Cathegory cathegory = new Cathegory(result.Text);
+                result.Cathegory = cathegory;
                 if (selectedNode != null)
                 {
+                    
+                    selectedNode.Cathegory.Cathegories.Add(cathegory);
                     selectedNode.Nodes.Add(result);
                 }
                 else
                 {
+                    Storage.Cathegories.Add(cathegory);
                     storageTree.Nodes.Add(result);
                 }
                 Utils.CreateCategoryInPath(result);
@@ -73,10 +78,12 @@ namespace Storage
                     var parent = selectedNode.Parent;
                     if (parent != null)
                     {
-                        selectedNode.Parent.Nodes.Remove(selectedNode);
+                        ((StorageNode)parent).Cathegory.Cathegories.Remove(((StorageNode)selectedNode).Cathegory);
+                        parent.Nodes.Remove(selectedNode);
                     }
                     else
                     {
+                        Storage.Cathegories.Remove(((StorageNode)selectedNode).Cathegory);
                         storageTree.Nodes.Remove(selectedNode);
                     }
                 }
@@ -155,6 +162,9 @@ namespace Storage
                         row.Cells[j].Value = array[j];
                     }
                     dataGrid.Rows.Add(row);
+                    Storage.Products.Add(pr);
+                    ((StorageNode)selectedNode).Cathegory.Products.Add(pr);
+
                 }
             }
             catch
@@ -163,6 +173,7 @@ namespace Storage
             }
         }
 
+        // TODO при уалении удалять из стораджа
         private void deleteButton_Click(object sender, EventArgs e)
         {
             try
