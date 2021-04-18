@@ -70,6 +70,7 @@
             this.nameBox.Name = "nameBox";
             this.nameBox.Size = new System.Drawing.Size(165, 20);
             this.nameBox.TabIndex = 1;
+            this.nameBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // label2
             // 
@@ -91,6 +92,7 @@
             this.descriptionBox.Name = "descriptionBox";
             this.descriptionBox.Size = new System.Drawing.Size(337, 20);
             this.descriptionBox.TabIndex = 3;
+            this.descriptionBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // label3
             // 
@@ -166,6 +168,7 @@
             this.guaranteeBox.Name = "guaranteeBox";
             this.guaranteeBox.Size = new System.Drawing.Size(337, 20);
             this.guaranteeBox.TabIndex = 13;
+            this.guaranteeBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // addButton
             // 

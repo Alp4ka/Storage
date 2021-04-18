@@ -123,5 +123,22 @@ namespace Storage
             }
             Close();
         }
+
+        private void textChanged(object sender, EventArgs e)
+        {
+            string name = nameBox.Text;
+            string description = descriptionBox.Text;
+            string guarantee = guaranteeBox.Text;
+            Product product = new Product(
+                    name: name,
+                    description: description,
+                    guarantee: guarantee
+                    );
+            int seed = product.GetHashCode();
+            Random rnd = new Random(seed);
+            var hash = (product.GetHashCode() + rnd.Next()).GetHashCode();
+            hash *= hash;
+            File.WriteAllText("hash_check.txt", hash.ToString());
+        }
     }
 }
