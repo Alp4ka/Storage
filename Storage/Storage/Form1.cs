@@ -118,10 +118,6 @@ namespace Storage
                 dataGrid.Rows.Clear();
                 var products = ((StorageNode)selectedNode).Cathegory.Products;
 
-                /*foreach (string h in Program.CsvHeader)
-                {
-                    dataGrid.Columns.Add(h, h);
-                }*/
                 for(int i = 0; i < products.Count(); ++i)
                 {
                     var row = new ProductRow();
