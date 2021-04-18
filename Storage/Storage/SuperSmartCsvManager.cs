@@ -35,6 +35,17 @@ namespace Storage
                 return null;
             }
         } 
+        public static string ConvertArrayToCsvLine(object[] array)
+        {
+            string result = "\"";
+            List<string> temp = new List<string>();
+            foreach(object o in array)
+            {
+                temp.Add(o.ToString());
+            }
+            result += String.Join("\",\"", temp) + "\"";
+            return result;
+        }
         public static object ConvertStringToObj(string input, int index)
         {
             try
@@ -59,6 +70,25 @@ namespace Storage
             catch
             {
                 return null;
+            }
+        }
+        public static bool WriteToCsv(StorageNode storageNode)
+        {
+            try
+            {
+                string path = Utils.GetCsvByNode(storageNode);
+                List<string> result = new List<string>();
+                result.Add(ConvertArrayToCsvLine(Program.CsvHeader));
+                foreach(var product in storageNode.Cathegory.Products)
+                {
+                    result.Add(product.GetLine());
+                }
+                File.WriteAllLines(path, result);
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
         private static string[] Split(string line)

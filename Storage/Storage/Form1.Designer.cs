@@ -81,7 +81,7 @@
             this.categoryCreationStrip.Name = "contextMenuStrip1";
             this.categoryCreationStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.categoryCreationStrip.ShowImageMargin = false;
-            this.categoryCreationStrip.Size = new System.Drawing.Size(164, 92);
+            this.categoryCreationStrip.Size = new System.Drawing.Size(164, 70);
             this.categoryCreationStrip.Opening += new System.ComponentModel.CancelEventHandler(this.categoryCreationStrip_Opening);
             // 
             // createNewCategory
@@ -110,6 +110,7 @@
             // 
             // dataGrid
             // 
+            this.dataGrid.AllowUserToAddRows = false;
             this.dataGrid.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.dataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;

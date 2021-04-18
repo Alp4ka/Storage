@@ -1,0 +1,15 @@
+C:\Users\kisam\Desktop\Storage\Storage\Storage\bin\Release\Storage.exe.config
+C:\Users\kisam\Desktop\Storage\Storage\Storage\bin\Release\Storage.exe
+C:\Users\kisam\Desktop\Storage\Storage\Storage\bin\Release\Storage.pdb
+C:\Users\kisam\Desktop\Storage\Storage\Storage\bin\Release\MetroFramework.dll
+C:\Users\kisam\Desktop\Storage\Storage\Storage\bin\Release\MetroFramework.Fonts.dll
+C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Release\Storage.csprojAssemblyReference.cache
+C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Release\Storage.CategoryCreationView.resources
+C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Release\Storage.Form1.resources
+C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Release\Storage.ProductCardView.resources
+C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Release\Storage.Properties.Resources.resources
+C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Release\Storage.csproj.GenerateResource.cache
+C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Release\Storage.csproj.CoreCompileInputs.cache
+C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Release\Storage.csproj.CopyComplete
+C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Release\Storage.exe
+C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Release\Storage.pdb

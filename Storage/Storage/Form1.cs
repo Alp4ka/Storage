@@ -16,7 +16,12 @@ namespace Storage
         {
             InitializeComponent();
             InitializeCategories();
-            foreach (string h in Program.CsvHeader)
+            InitializeHeader(Program.CsvHeader);
+        }
+
+        private void InitializeHeader(string[] header)
+        {
+            foreach (string h in header)
             {
                 dataGrid.Columns.Add(h, h);
             }
@@ -53,7 +58,7 @@ namespace Storage
                 result.Cathegory = cathegory;
                 if (selectedNode != null)
                 {
-                    
+
                     selectedNode.Cathegory.Cathegories.Add(cathegory);
                     selectedNode.Nodes.Add(result);
                 }
@@ -69,7 +74,7 @@ namespace Storage
         private void deleteSubCategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var selectedNode = storageTree.SelectedNode;
-            if(selectedNode != null)
+            if (selectedNode != null)
             {
                 DialogResult result = MessageBox.Show($"Are you sure want to delete {selectedNode.Text}?", "Deletion", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
@@ -98,7 +103,7 @@ namespace Storage
         private void changeSubCategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var selectedNode = storageTree.SelectedNode;
-            if(selectedNode != null)
+            if (selectedNode != null)
             {
                 CategoryCreationView ccv = new CategoryCreationView((StorageNode)selectedNode.Parent);
                 ccv.ShowDialog();
@@ -107,18 +112,18 @@ namespace Storage
                     Utils.RenameCategoryTo((StorageNode)selectedNode, ccv.Result.Text);
                 }
             }
-            
+
         }
 
         private void storageTree_DoubleClick(object sender, EventArgs e)
         {
             var selectedNode = storageTree.SelectedNode;
-            if(selectedNode!= null)
+            if (selectedNode != null)
             {
                 dataGrid.Rows.Clear();
                 var products = ((StorageNode)selectedNode).Cathegory.Products;
 
-                for(int i = 0; i < products.Count(); ++i)
+                for (int i = 0; i < products.Count(); ++i)
                 {
                     var row = new ProductRow();
                     var array = products[i].GetArray();
@@ -160,7 +165,10 @@ namespace Storage
                     dataGrid.Rows.Add(row);
                     Storage.Products.Add(pr);
                     ((StorageNode)selectedNode).Cathegory.Products.Add(pr);
-
+#if DEBUG
+                    MessageBox.Show(String.Join("\n", Storage.Products.Select(x => x.Name + " " + x.Description)));
+#endif
+                    SuperSmartCsvManager.WriteToCsv((StorageNode)selectedNode);
                 }
             }
             catch
@@ -169,36 +177,42 @@ namespace Storage
             }
         }
 
-        // TODO при уалении удалять из стораджа
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            try
+            var selectedNode = (StorageNode)storageTree.SelectedNode;
+            if (selectedNode != null)
             {
-                DialogResult result = MessageBox.Show("Are you sure want to delete this row?", "Warning", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
+                try
                 {
-                    var selectedCells = dataGrid.SelectedCells;
-                    if (selectedCells != null && selectedCells.Count > 0)
+                    DialogResult result = MessageBox.Show("Are you sure want to delete this row?", "Warning", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
                     {
-                        dataGrid.Rows.RemoveAt(selectedCells[0].RowIndex);
+                        var selectedCells = dataGrid.SelectedCells;
+                        if (selectedCells != null && selectedCells.Count > 0)
+                        {
+                            var productRow = (ProductRow)selectedCells[0].OwningRow;
+                            Storage.Products.Remove(productRow.Product);
+                            selectedNode.Cathegory.Products.Remove(productRow.Product);
+                            dataGrid.Rows.RemoveAt(selectedCells[0].RowIndex);
+#if DEBUG
+                            MessageBox.Show(String.Join("\n", Storage.Products.Select(x => x.Name + " " + x.Description)));
+#endif
+                            SuperSmartCsvManager.WriteToCsv((StorageNode)selectedNode);
+                        }
                     }
                 }
+                catch (InvalidOperationException)
+                {
+                    MessageBox.Show("Choose correct row.");
+                }
             }
-            catch (InvalidOperationException)
+            else
             {
-                MessageBox.Show("Choose correct row.");
+                MessageBox.Show("Choose cathegory.");
             }
         }
 
-        private void dataGrid_Enter(object sender, EventArgs e)
-        {
-            //editButton.Visible = true;
-        }
 
-        private void dataGrid_Leave(object sender, EventArgs e)
-        {
-            //editButton.Visible = false;
-        }
 
         private void editButton_Click(object sender, EventArgs e)
         {
@@ -214,14 +228,14 @@ namespace Storage
                     var productRow = ((ProductRow)dataGrid.SelectedCells[0].OwningRow);
                     ProductCardView pcv = new ProductCardView(productRow);
                     pcv.ShowDialog();
-                    if(pcv.Result != null)
+                    if (pcv.Result != null)
                     {
                         object[] toSave = productRow.Product.GetArray();
-                        for(int i=0; i < toSave.Length; ++i)
+                        for (int i = 0; i < toSave.Length; ++i)
                         {
                             productRow.Cells[i].Value = toSave[i];
                         }
-                        
+                        SuperSmartCsvManager.WriteToCsv((StorageNode)selectedNode);
                     }
                 }
             }
@@ -233,7 +247,7 @@ namespace Storage
 
         private void dataGrid_SelectionChanged(object sender, EventArgs e)
         {
-            if((sender as DataGridView).CurrentCell != null)
+            if ((sender as DataGridView).CurrentCell != null)
             {
                 editButton.Enabled = true;
                 deleteButton.Enabled = true;
@@ -248,7 +262,7 @@ namespace Storage
         private void categoryCreationStrip_Opening(object sender, CancelEventArgs e)
         {
             var selectedNode = storageTree.SelectedNode;
-            if(selectedNode != null)
+            if (selectedNode != null)
             {
                 deleteSubCategoryToolStripMenuItem.Enabled = changeSubCategoryToolStripMenuItem.Enabled = true;
             }

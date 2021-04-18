@@ -13,6 +13,8 @@ namespace Storage
     {
         private const string _root = ".\\CATEGORIES";
         private const string _csvName = "products.csv";
+        public static string Root { get => _root; }
+        public static string CsvName { get => _csvName; }
         public static StorageNode FindNode(StorageNode treeNode, string name)
         {
             foreach (StorageNode tn in treeNode.Nodes)
@@ -26,7 +28,7 @@ namespace Storage
         }
         public static string GetCsvByNode(StorageNode tnode)
         {
-            return Path.Combine(Path.Combine(_root, tnode.FullPath), _csvName);
+            return Path.Combine(Path.Combine(Root, tnode.FullPath), CsvName);
         }
         public static StorageNode[] InitializeCategories(string path=_root)
         {
@@ -45,7 +47,7 @@ namespace Storage
                         tempTreeView.Nodes.Add(tnode);
                         nodes.Add(tnode);
 
-                        string csvPath = Path.Combine(d, _csvName);
+                        string csvPath = Path.Combine(d, CsvName);
                         List<Product> productsToAdd = ParseProducts(csvPath);
 
                         Cathegory cathegoryToAdd = new Cathegory(tnode.Text);
@@ -61,7 +63,7 @@ namespace Storage
                 }
                 else
                 {
-                    Directory.CreateDirectory(_root);
+                    Directory.CreateDirectory(Root);
                     return new StorageNode[] { };
                 }
             }
@@ -91,7 +93,7 @@ namespace Storage
         }
         private static void TreeNodeByPath(StorageNode parent, int remain)
         {
-            string parentPath = Path.Combine(_root, parent.FullPath);
+            string parentPath = Path.Combine(Root, parent.FullPath);
             if (remain <= 0 || Directory.GetDirectories(parentPath).Length == 0)
             {
                 return;
@@ -105,7 +107,7 @@ namespace Storage
                 Storage.Cathegories.Add(cathegoryToAdd);
                 tnode.Cathegory = cathegoryToAdd;
 
-                string csvPath = Path.Combine(d, _csvName);
+                string csvPath = Path.Combine(d, CsvName);
                 List<Product> productsToAdd = ParseProducts(csvPath);
                 cathegoryToAdd.Products.AddRange(productsToAdd);
                 Storage.Products.AddRange(productsToAdd);
@@ -129,7 +131,7 @@ namespace Storage
         {
             try
             {
-                string fullpath = Path.Combine(_root, node.FullPath);
+                string fullpath = Path.Combine(Root, node.FullPath);
                 Directory.CreateDirectory(fullpath);
                 string filename = Path.Combine(fullpath, "products.csv");
                 File.WriteAllText(filename, String.Join(",", Program.CsvHeader.Select(x=>'"'+ x.ToString() + '"')));
@@ -200,7 +202,7 @@ namespace Storage
         {
             try
             {
-                string fullpath = Path.Combine(_root, node.FullPath);
+                string fullpath = Path.Combine(Root, node.FullPath);
                 Storage.Cathegories.Remove(node.Cathegory);
                 Directory.Delete(fullpath, true);
             }
@@ -217,7 +219,7 @@ namespace Storage
         {
             try
             {
-                string fullpath = Path.Combine(_root, node.FullPath);
+                string fullpath = Path.Combine(Root, node.FullPath);
                 DirectoryInfo dinfo = new DirectoryInfo(fullpath);
                 dinfo.RenameTo(name);
                 node.Text = name;
