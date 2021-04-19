@@ -10,12 +10,27 @@ namespace Storage
     public class Storage
     {
         private static int warnProductAmount = 10;
-        public static int WarnProductAmount {
+        public static int WarnProductAmount
+        {
             get => warnProductAmount;
             set
             {
                 warnProductAmount = value >= 1 ? value : warnProductAmount;
             }
+        }
+        public static List<Product> GetProductsInWarn()
+        {
+            return Products.Where(x => x.InNeed).ToList();
+        }
+        public static List<string> GetCsvFromList(List<Product> products)
+        {
+            List<string> result = new List<string>();
+            result.Add(SuperSmartCsvManager.ConvertArrayToCsvLine(Program.CsvHeader));
+            foreach(Product product in products)
+            {
+                result.Add(product.GetLine());
+            }
+            return result;
         }
         public static List<Product> Products { get; set; }
         public static List<Cathegory> Cathegories { get; set; }
@@ -28,7 +43,7 @@ namespace Storage
         {
             var products = cathegory.GetAllProducts();
             Cathegories.Remove(cathegory);
-            for(int i =0; i < products.Count; ++i) 
+            for (int i = 0; i < products.Count; ++i)
             {
                 Products.Remove(products[i]);
             }

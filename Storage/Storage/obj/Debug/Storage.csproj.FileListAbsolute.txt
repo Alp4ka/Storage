@@ -43,3 +43,5 @@ C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Debug\Storage.csproj.CoreComp
 C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Debug\Storage.csproj.CopyComplete
 C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Debug\Storage.exe
 C:\Users\kisam\Desktop\Storage\Storage\Storage\obj\Debug\Storage.pdb
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\obj\Debug\Storage.SettingsView.resources
+C:\Users\kisam\OneDrive\Рабочий стол\Storage\Storage\Storage\obj\Debug\Storage.HelpView.resources

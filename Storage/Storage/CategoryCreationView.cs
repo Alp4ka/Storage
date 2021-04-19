@@ -35,6 +35,11 @@ namespace Storage
                 MessageBox.Show("Category name must contain less than 50 symbols.");
                 return;
             }
+            if (text.IndexOfAny( new char[] { '/','\\','|', '?', '*', '!', ',', '<', '>'}) >= 0)
+            {
+                MessageBox.Show("Forbidden symbols!");
+                return;
+            }
             if(_parentNode != null)
             {
                 if (Utils.FindNode((StorageNode)_parentNode, text) == null)

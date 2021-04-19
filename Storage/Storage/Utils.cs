@@ -134,9 +134,6 @@ namespace Storage
                 Directory.CreateDirectory(fullpath);
                 string filename = Path.Combine(fullpath, "products.csv");
                 File.WriteAllText(filename, String.Join(",", Program.CsvHeader.Select(x=>'"'+ x.ToString() + '"')));
-                //Cathegory cathegory = new Cathegory(node.Text);
-                //node.Cathegory = cathegory;
-                //Storage.Cathegories.Add(cathegory);
             }
             catch (Exception ex)
             {

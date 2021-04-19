@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Policy;
-
+using System.IO;
+using System.Linq;
 
 namespace Storage
 {
@@ -21,7 +22,28 @@ namespace Storage
             InitializeHeader(Program.CsvHeader);
             pathLabel.Text = Utils.Root;
         }
-
+        private void HighlightProducts(string article)
+        {
+            Color toColor;
+            foreach(DataGridViewRow row in dataGrid.Rows)
+            {
+                var prow = (ProductRow)row;
+                if(prow.Product.Article.Replace("-", "").StartsWith(article.Replace("-", "")) && !String.IsNullOrWhiteSpace(article.Replace("-", "")))
+                {
+                    toColor = Color.FromArgb(255, 255, 0);
+                }
+                else
+                {
+                    toColor = Color.FromArgb(255, 255, 255);
+                }
+                foreach(DataGridViewCell cell in row.Cells)
+                {
+                    var style = new DataGridViewCellStyle(cell.Style);
+                    style.ForeColor = toColor;
+                    cell.Style = style;
+                }
+            }
+        }
         private void InitializeHeader(string[] header)
         {
             dataGrid.Columns.Clear();
@@ -42,14 +64,6 @@ namespace Storage
             }
         }
 
-        private void storageTree_Click(object sender, EventArgs e)
-        {
-            MouseEventArgs me = (MouseEventArgs)e;
-            if (me.Button == MouseButtons.Right)
-            {
-
-            }
-        }
 
         private void createNewCategory_Click(object sender, EventArgs e)
         {
@@ -88,7 +102,7 @@ namespace Storage
                     var subcathegory = ((StorageNode)selectedNode).Cathegory;
                     if (parent != null)
                     {
-                        
+
                         ((StorageNode)parent).Cathegory.Cathegories.Remove(subcathegory);
                         parent.Nodes.Remove(selectedNode);
                     }
@@ -146,7 +160,6 @@ namespace Storage
             }
         }
 
-        // TODO Здесь нужно смотреть не на селектед нод, а на датагрид.
         private void addButton_Click(object sender, EventArgs e)
         {
             try
@@ -289,6 +302,58 @@ namespace Storage
             {
                 MessageBox.Show("Wrong Storage root!");
             }
+        }
+
+        private void delayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingsView sview = new SettingsView();
+            sview.ShowDialog();
+        }
+
+        private void createReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.DefaultExt = ".csv";
+            string date = DateTime.Now.ToString().Replace(" ", "_").Replace(":", ".");
+            saveFileDialog1.FileName = $"Products_in_need_{date}";
+            saveFileDialog1.Filter = "CSV File | .csv";
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            string path = saveFileDialog1.FileName;
+            var productsInNeed = Storage.GetProductsInWarn();
+            var content = Storage.GetCsvFromList(productsInNeed);
+            try
+            {
+                File.WriteAllLines(path, content);
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong:c");
+            }
+        }
+
+        private void articleSearchBox_TextChanged(object sender, EventArgs e)
+        {
+            HighlightProducts(articleSearchBox.Text);
+        }
+        private void orderCathegoriesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<ProductRow> rows = new List<ProductRow>();
+            foreach(ProductRow row in dataGrid.Rows)
+            {
+                rows.Add(row);
+            }
+            rows = rows.OrderBy(x => x.Product.Name).ThenBy(x=>x.Product.Article).ToList();
+            dataGrid.Rows.Clear();
+            foreach (ProductRow row in rows)
+            {
+                dataGrid.Rows.Add(row);
+            }
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var help = new HelpView();
+            help.ShowDialog();
         }
     }
 }

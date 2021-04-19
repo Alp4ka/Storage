@@ -46,9 +46,9 @@ namespace Storage
             t.Add(Name);
             t.Add(Description);
             t.Add(Article);
+            t.Add(Amount.ToString());
             t.Add(Price1.ToString());
             t.Add(Price2.ToString());
-            t.Add(Amount.ToString());
             t.Add(Guarantee);
             result += String.Join("\",\"", t) + "\"";
             return result;
@@ -59,9 +59,9 @@ namespace Storage
             t.Add(Name);
             t.Add(Description);
             t.Add(Article);
+            t.Add(Amount);
             t.Add(Price1);
             t.Add(Price2);
-            t.Add(Amount);
             t.Add(Guarantee);
             return t.ToArray();
         }
