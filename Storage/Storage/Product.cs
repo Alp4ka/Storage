@@ -1,22 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Storage
 {
+    /// <summary>
+    /// Класс продукта.
+    /// </summary>
     public class Product
     {
+        /// <summary>
+        /// Имя.
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Дескрипшн.
+        /// </summary>
         public string Description { get; set; }
+        /// <summary>
+        /// Цена 1. В рублях, потому что люблю нашу страну.
+        /// </summary>
         public double Price1 { get; set; }
+        /// <summary>
+        /// Цена 2. 
+        /// </summary>
         public double Price2 { get; set; }
+        /// <summary>
+        /// Артикул.
+        /// </summary>
         public string Article { get; set; }
+        /// <summary>
+        /// Число товара.
+        /// </summary>
         public int Amount { get; set; }
+        /// <summary>
+        /// Гарантия.
+        /// </summary>
         public string Guarantee { get; set; }
-        public bool InNeed {
+        /// <summary>
+        /// Проверить, как там с товаром обстоит вопрос.
+        /// </summary>
+        public bool InNeed
+        {
             get
             {
                 if (Amount <= Storage.WarnProductAmount)
@@ -29,7 +54,7 @@ namespace Storage
                 }
             }
         }
-        public Product(string name, string description="", string article="", int amount = 0, double price1 = 0, double price2 = 0,  string guarantee="")
+        public Product(string name, string description = "", string article = "", int amount = 0, double price1 = 0, double price2 = 0, string guarantee = "")
         {
             Name = name;
             Description = description;
@@ -39,6 +64,10 @@ namespace Storage
             Amount = amount;
             Guarantee = guarantee;
         }
+        /// <summary>
+        /// Получить цсв представление продукта.
+        /// </summary>
+        /// <returns></returns>
         public string GetLine()
         {
             string result = "\"";
@@ -53,6 +82,10 @@ namespace Storage
             result += String.Join("\",\"", t) + "\"";
             return result;
         }
+        /// <summary>
+        /// Получить массив объектов(свойства товара).
+        /// </summary>
+        /// <returns></returns>
         public object[] GetArray()
         {
             List<object> t = new List<object>();
@@ -65,6 +98,11 @@ namespace Storage
             t.Add(Guarantee);
             return t.ToArray();
         }
+        /// <summary>
+        /// Создать продукт по массиву(его освойств).
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         public static Product FromArray(object[] line)
         {
             try

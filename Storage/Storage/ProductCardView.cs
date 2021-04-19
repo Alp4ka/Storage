@@ -1,19 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
 namespace Storage
 {
+    /// <summary>
+    /// Вь.щка для карточки товара.
+    /// </summary>
     public partial class ProductCardView : Form
     {
         private Product _result;
+        /// <summary>
+        /// Переменная, которая хранит в себе результат работы в окошке.
+        /// </summary>
         public Product Result { get => _result; }
         private Product _toChange = null;
         public ProductCardView()
@@ -35,6 +36,11 @@ namespace Storage
             guaranteeBox.Text = product.Guarantee != null ? product.Guarantee : "";
         }
 
+        /// <summary>
+        /// Загрузить изображение.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
@@ -54,11 +60,20 @@ namespace Storage
             }
         }
 
+        /// <summary>
+        /// Нажатие на кнопку канкел.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancelButton_Click(object sender, EventArgs e)
         {
             _result = null;
             Close();
         }
+        /// <summary>
+        /// Проверить правильность введенных данных.
+        /// </summary>
+        /// <returns></returns>
         private bool CheckFields()
         {
             if (nameBox.Text.Length < 3)
@@ -84,6 +99,11 @@ namespace Storage
             return true;
         }
 
+        /// <summary>
+        /// Нажатие на Add.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addButton_Click(object sender, EventArgs e)
         {
             if (!CheckFields())
@@ -124,6 +144,11 @@ namespace Storage
             Close();
         }
 
+        /// <summary>
+        /// Смена текста в текстбоксе.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textChanged(object sender, EventArgs e)
         {
             string name = nameBox.Text;
@@ -136,10 +161,8 @@ namespace Storage
                     );
             string generatedArticle = HashStringUtils.CreateArticle(product, Utils.ArticleNumericLength);
             articleBox.Text = generatedArticle;
-
-            //File.WriteAllText("hash_check.txt", hash.ToString());
         }
-        
+
     }
 
 }

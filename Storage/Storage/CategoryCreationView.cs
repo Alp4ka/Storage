@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Storage
@@ -14,6 +7,9 @@ namespace Storage
     {
         private StorageNode _parentNode;
         private StorageNode _result;
+        /// <summary>
+        /// Переменная - результат работы с окном.
+        /// </summary>
         public StorageNode Result { get => _result; }
         public CategoryCreationView(StorageNode parentNode)
         {
@@ -21,7 +17,11 @@ namespace Storage
             _parentNode = parentNode;
             InitializeComponent();
         }
-
+        /// <summary>
+        /// Нажатие на сабмит.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void submitButton_Click(object sender, EventArgs e)
         {
             string text = nameBox.Text;
@@ -35,12 +35,12 @@ namespace Storage
                 MessageBox.Show("Category name must contain less than 50 symbols.");
                 return;
             }
-            if (text.IndexOfAny( new char[] { '/','\\','|', '?', '*', '!', ',', '<', '>'}) >= 0)
+            if (text.IndexOfAny(new char[] { '/', '\\', '|', '?', '*', '!', ',', '<', '>' }) >= 0)
             {
                 MessageBox.Show("Forbidden symbols!");
                 return;
             }
-            if(_parentNode != null)
+            if (_parentNode != null)
             {
                 if (Utils.FindNode((StorageNode)_parentNode, text) == null)
                 {
@@ -58,7 +58,11 @@ namespace Storage
             }
             Close();
         }
-
+        /// <summary>
+        /// Нажатие на канкел c:.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancelButton_Click(object sender, EventArgs e)
         {
             _result = null;

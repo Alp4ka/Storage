@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Storage
 {
@@ -20,14 +16,14 @@ namespace Storage
         }
         public void RecursiveProducts(ref List<Product> result, Cathegory cathegory, int curDepth)
         {
-            if(curDepth<= 0)
+            if (curDepth <= 0)
             {
                 return;
             }
             result.AddRange(cathegory.Products);
             foreach (Cathegory c in cathegory.Cathegories)
             {
-                RecursiveProducts(ref result, c, curDepth-1);
+                RecursiveProducts(ref result, c, curDepth - 1);
             }
         }
         public Cathegory()

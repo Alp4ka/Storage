@@ -4,17 +4,16 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Security.Policy;
 using System.IO;
-using System.Linq;
 
 namespace Storage
 {
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Вьюшка для главной формы.
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -22,13 +21,17 @@ namespace Storage
             InitializeHeader(Program.CsvHeader);
             pathLabel.Text = Utils.Root;
         }
+        /// <summary>
+        /// Подсветить продукты по запросу.
+        /// </summary>
+        /// <param name="article"></param>
         private void HighlightProducts(string article)
         {
             Color toColor;
-            foreach(DataGridViewRow row in dataGrid.Rows)
+            foreach (DataGridViewRow row in dataGrid.Rows)
             {
                 var prow = (ProductRow)row;
-                if(prow.Product.Article.Replace("-", "").StartsWith(article.Replace("-", "")) && !String.IsNullOrWhiteSpace(article.Replace("-", "")))
+                if (prow.Product.Article.Replace("-", "").StartsWith(article.Replace("-", "")) && !String.IsNullOrWhiteSpace(article.Replace("-", "")))
                 {
                     toColor = Color.FromArgb(255, 255, 0);
                 }
@@ -36,7 +39,7 @@ namespace Storage
                 {
                     toColor = Color.FromArgb(255, 255, 255);
                 }
-                foreach(DataGridViewCell cell in row.Cells)
+                foreach (DataGridViewCell cell in row.Cells)
                 {
                     var style = new DataGridViewCellStyle(cell.Style);
                     style.ForeColor = toColor;
@@ -44,6 +47,10 @@ namespace Storage
                 }
             }
         }
+        /// <summary>
+        /// Проинициализирвать заголовки.
+        /// </summary>
+        /// <param name="header"></param>
         private void InitializeHeader(string[] header)
         {
             dataGrid.Columns.Clear();
@@ -53,6 +60,9 @@ namespace Storage
             }
         }
 
+        /// <summary>
+        /// Проинициализировать категории.
+        /// </summary>
         private void InitializeCategories()
         {
             StorageNode[] nodes = Utils.InitializeCategories(Utils.Root);
@@ -64,7 +74,11 @@ namespace Storage
             }
         }
 
-
+        /// <summary>
+        /// Создать новую категорию(клик).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void createNewCategory_Click(object sender, EventArgs e)
         {
             var selectedNode = (StorageNode)storageTree.SelectedNode;
@@ -89,6 +103,11 @@ namespace Storage
             }
         }
 
+        /// <summary>
+        /// Удалить категорию(клик).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deleteSubCategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var selectedNode = storageTree.SelectedNode;
@@ -116,11 +135,21 @@ namespace Storage
             }
         }
 
+        /// <summary>
+        /// Ого, текст сменился.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             Utils.HighlightNodesByContaining(storageTree, textBox1.Text);
         }
 
+        /// <summary>
+        /// Сменить имя категории.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void changeSubCategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var selectedNode = storageTree.SelectedNode;
@@ -136,6 +165,11 @@ namespace Storage
 
         }
 
+        /// <summary>
+        /// Дабл клик по тривью.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void storageTree_DoubleClick(object sender, EventArgs e)
         {
             var selectedNode = storageTree.SelectedNode;
@@ -160,6 +194,11 @@ namespace Storage
             }
         }
 
+        /// <summary>
+        /// Нажатие на кнопку добавить.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addButton_Click(object sender, EventArgs e)
         {
             try
@@ -194,6 +233,11 @@ namespace Storage
             }
         }
 
+        /// <summary>
+        /// Удаление(нажатие на кнопку).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deleteButton_Click(object sender, EventArgs e)
         {
             var selectedNode = (StorageNode)storageTree.SelectedNode;
@@ -227,7 +271,11 @@ namespace Storage
         }
 
 
-
+        /// <summary>
+        /// Редактировать товар(нажатие на кнопку).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void editButton_Click(object sender, EventArgs e)
         {
             try
@@ -259,6 +307,11 @@ namespace Storage
             }
         }
 
+        /// <summary>
+        /// Сменилос выделение, обрабатываем событие.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGrid_SelectionChanged(object sender, EventArgs e)
         {
             if ((sender as DataGridView).CurrentCell != null)
@@ -273,6 +326,11 @@ namespace Storage
             }
         }
 
+        /// <summary>
+        /// Создать новую категорию(клик).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void categoryCreationStrip_Opening(object sender, CancelEventArgs e)
         {
             var selectedNode = storageTree.SelectedNode;
@@ -286,6 +344,11 @@ namespace Storage
             }
         }
 
+        /// <summary>
+        /// Открыть новый склад(или проиницилизировать)(((клик))).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void openStripMenuItem_Click(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.Cancel)
@@ -304,12 +367,22 @@ namespace Storage
             }
         }
 
+        /// <summary>
+        /// Вызываем вьюшку настроек InNeed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void delayToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SettingsView sview = new SettingsView();
             sview.ShowDialog();
         }
 
+        /// <summary>
+        /// Создать репорт о товарах, которые скоро закончатся.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void createReportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog1.DefaultExt = ".csv";
@@ -331,6 +404,11 @@ namespace Storage
             }
         }
 
+        /// <summary>
+        /// Поиск по артикулу.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void articleSearchBox_TextChanged(object sender, EventArgs e)
         {
             HighlightProducts(articleSearchBox.Text);
@@ -338,18 +416,22 @@ namespace Storage
         private void orderCathegoriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<ProductRow> rows = new List<ProductRow>();
-            foreach(ProductRow row in dataGrid.Rows)
+            foreach (ProductRow row in dataGrid.Rows)
             {
                 rows.Add(row);
             }
-            rows = rows.OrderBy(x => x.Product.Name).ThenBy(x=>x.Product.Article).ToList();
+            rows = rows.OrderBy(x => x.Product.Name).ThenBy(x => x.Product.Article).ToList();
             dataGrid.Rows.Clear();
             foreach (ProductRow row in rows)
             {
                 dataGrid.Rows.Add(row);
             }
         }
-
+        /// <summary>
+        /// Нажатие на хелп.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var help = new HelpView();
