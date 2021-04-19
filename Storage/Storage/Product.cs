@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Storage
 {
-    public class Product : IStorable
+    public class Product
     {
         public string Name { get; set; }
         public string Description { get; set; }

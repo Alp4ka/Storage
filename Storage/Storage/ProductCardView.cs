@@ -50,7 +50,7 @@ namespace Storage
             }
             catch
             {
-                
+
             }
         }
 
@@ -134,11 +134,12 @@ namespace Storage
                     description: description,
                     guarantee: guarantee
                     );
-            int seed = product.GetHashCode();
-            Random rnd = new Random(seed);
-            var hash = (product.GetHashCode() + rnd.Next()).GetHashCode();
-            hash *= hash;
-            File.WriteAllText("hash_check.txt", hash.ToString());
+            string generatedArticle = HashStringUtils.CreateArticle(product, Utils.ArticleNumericLength);
+            articleBox.Text = generatedArticle;
+
+            //File.WriteAllText("hash_check.txt", hash.ToString());
         }
+        
     }
+
 }

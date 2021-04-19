@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
@@ -11,10 +9,11 @@ namespace Storage
 {
     public static class Utils
     {
-        private const string _root = ".\\CATEGORIES";
-        private const string _csvName = "products.csv";
-        public static string Root { get => _root; }
-        public static string CsvName { get => _csvName; }
+        private static  string _root = ".\\CATEGORIES";
+        public const int ArticleNumericLength = 9;
+        private static string _csvName = "products.csv";
+        public static string Root { get => _root; set { _root = value; } }
+        public static string CsvName { get => _csvName;}
         public static StorageNode FindNode(StorageNode treeNode, string name)
         {
             foreach (StorageNode tn in treeNode.Nodes)
@@ -30,7 +29,7 @@ namespace Storage
         {
             return Path.Combine(Path.Combine(Root, tnode.FullPath), CsvName);
         }
-        public static StorageNode[] InitializeCategories(string path=_root)
+        public static StorageNode[] InitializeCategories(string path)
         {
             TreeView tempTreeView = new TreeView();
             List<StorageNode> nodes = new List<StorageNode>();
@@ -104,8 +103,8 @@ namespace Storage
                 StorageNode tnode = new StorageNode(Path.GetFileName(d));
 
                 Cathegory cathegoryToAdd = new Cathegory(tnode.Text);
-                Storage.Cathegories.Add(cathegoryToAdd);
                 tnode.Cathegory = cathegoryToAdd;
+                parent.Cathegory.Cathegories.Add(cathegoryToAdd);
 
                 string csvPath = Path.Combine(d, CsvName);
                 List<Product> productsToAdd = ParseProducts(csvPath);
@@ -135,9 +134,9 @@ namespace Storage
                 Directory.CreateDirectory(fullpath);
                 string filename = Path.Combine(fullpath, "products.csv");
                 File.WriteAllText(filename, String.Join(",", Program.CsvHeader.Select(x=>'"'+ x.ToString() + '"')));
-                Cathegory cathegory = new Cathegory(node.Text);
-                node.Cathegory = cathegory;
-                Storage.Cathegories.Add(cathegory);
+                //Cathegory cathegory = new Cathegory(node.Text);
+                //node.Cathegory = cathegory;
+                //Storage.Cathegories.Add(cathegory);
             }
             catch (Exception ex)
             {
@@ -211,10 +210,6 @@ namespace Storage
                 MessageBox.Show(ex.Message);
             }
         }
-        /*public Product GetProductByRow(StorageNode tNode, DataGridView grid)
-        {
-            
-        }*/
         public static void RenameCategoryTo(StorageNode node, string name)
         {
             try

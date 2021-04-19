@@ -58,7 +58,7 @@
   <ItemGroup>
     <Compile Include="Cathegory.cs" />
     <Compile Include="DGridRowExtended.cs" />
-    <Compile Include="IStorable.cs" />
+    <Compile Include="HashStringUtils.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="CategoryCreationView.cs">
       <SubType>Form</SubType>

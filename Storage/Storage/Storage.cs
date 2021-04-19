@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Storage
 {
-    public class Storage : IStorable
+    public class Storage
     {
         private static int warnProductAmount = 10;
         public static int WarnProductAmount {
@@ -23,6 +24,14 @@ namespace Storage
             Products = new List<Product>();
             Cathegories = new List<Cathegory>();
         }
-
+        public static void RemoveCathegory(Cathegory cathegory)
+        {
+            var products = cathegory.GetAllProducts();
+            Cathegories.Remove(cathegory);
+            for(int i =0; i < products.Count; ++i) 
+            {
+                Products.Remove(products[i]);
+            }
+        }
     }
 }

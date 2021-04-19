@@ -6,24 +6,28 @@ using System.Threading.Tasks;
 
 namespace Storage
 {
-    public class Cathegory : IStorable
+    public class Cathegory
     {
-        //public IStorable Parent { get; set; }
+        private const int _recursionDepth = 15;
         public string Name { get; set; }
         public List<Product> Products { get; set; }
         public List<Cathegory> Cathegories { get; set; }
         public List<Product> GetAllProducts()
         {
             List<Product> result = new List<Product>();
-            RecursiveProducts(result, this);
-            return result.ToHashSet().ToList();
+            RecursiveProducts(ref result, this, _recursionDepth);
+            return result;
         }
-        public void RecursiveProducts(List<Product> result, Cathegory cathegory)
+        public void RecursiveProducts(ref List<Product> result, Cathegory cathegory, int curDepth)
         {
-            result.AddRange(Products);
-            foreach (Cathegory c in Cathegories)
+            if(curDepth<= 0)
             {
-                RecursiveProducts(result, c);
+                return;
+            }
+            result.AddRange(cathegory.Products);
+            foreach (Cathegory c in cathegory.Cathegories)
+            {
+                RecursiveProducts(ref result, c, curDepth-1);
             }
         }
         public Cathegory()

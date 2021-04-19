@@ -19,10 +19,12 @@ namespace Storage
             InitializeComponent();
             InitializeCategories();
             InitializeHeader(Program.CsvHeader);
+            pathLabel.Text = Utils.Root;
         }
 
         private void InitializeHeader(string[] header)
         {
+            dataGrid.Columns.Clear();
             foreach (string h in header)
             {
                 dataGrid.Columns.Add(h, h);
@@ -31,8 +33,9 @@ namespace Storage
 
         private void InitializeCategories()
         {
-            StorageNode[] nodes = Utils.InitializeCategories();
+            StorageNode[] nodes = Utils.InitializeCategories(Utils.Root);
             storageTree.Nodes.Clear();
+            dataGrid.Rows.Clear();
             foreach (var node in nodes)
             {
                 storageTree.Nodes.Add(node);
@@ -60,7 +63,6 @@ namespace Storage
                 result.Cathegory = cathegory;
                 if (selectedNode != null)
                 {
-
                     selectedNode.Cathegory.Cathegories.Add(cathegory);
                     selectedNode.Nodes.Add(result);
                 }
@@ -83,16 +85,19 @@ namespace Storage
                 {
                     Utils.RemoveCategoryFromPath((StorageNode)selectedNode);
                     var parent = selectedNode.Parent;
+                    var subcathegory = ((StorageNode)selectedNode).Cathegory;
                     if (parent != null)
                     {
-                        ((StorageNode)parent).Cathegory.Cathegories.Remove(((StorageNode)selectedNode).Cathegory);
+                        
+                        ((StorageNode)parent).Cathegory.Cathegories.Remove(subcathegory);
                         parent.Nodes.Remove(selectedNode);
                     }
                     else
                     {
-                        Storage.Cathegories.Remove(((StorageNode)selectedNode).Cathegory);
+                        Storage.Cathegories.Remove(subcathegory);
                         storageTree.Nodes.Remove(selectedNode);
                     }
+                    Storage.RemoveCathegory(subcathegory);
                 }
             }
         }
@@ -167,9 +172,6 @@ namespace Storage
                     dataGrid.Rows.Add(row);
                     Storage.Products.Add(pr);
                     ((StorageNode)selectedNode).Cathegory.Products.Add(pr);
-#if DEBUG
-                    MessageBox.Show(String.Join("\n", Storage.Products.Select(x => x.Name + " " + x.Description)));
-#endif
                     SuperSmartCsvManager.WriteToCsv((StorageNode)selectedNode);
                 }
             }
@@ -196,9 +198,6 @@ namespace Storage
                             Storage.Products.Remove(productRow.Product);
                             selectedNode.Cathegory.Products.Remove(productRow.Product);
                             dataGrid.Rows.RemoveAt(selectedCells[0].RowIndex);
-#if DEBUG
-                            MessageBox.Show(String.Join("\n", Storage.Products.Select(x => x.Name + " " + x.Description)));
-#endif
                             SuperSmartCsvManager.WriteToCsv((StorageNode)selectedNode);
                         }
                     }
@@ -271,6 +270,24 @@ namespace Storage
             else
             {
                 deleteSubCategoryToolStripMenuItem.Enabled = changeSubCategoryToolStripMenuItem.Enabled = false;
+            }
+        }
+
+        private void openStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            string path = folderBrowserDialog1.SelectedPath;
+            try
+            {
+                Utils.Root = path;
+                InitializeCategories();
+                InitializeHeader(Program.CsvHeader);
+                pathLabel.Text = Utils.Root;
+            }
+            catch
+            {
+                MessageBox.Show("Wrong Storage root!");
             }
         }
     }
